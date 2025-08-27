@@ -68,16 +68,18 @@ Server will be available at: [http://localhost:3000](http://localhost:3000)
 
 ## 🐳 Running in Docker
 
+Make sure the docker deamon is running before using these commands
+
 1. **Build the image**
 
 ```sh
-docker build -t cypress-runner .
+docker build -t cypress-api-runner .
 ```
 
 2. **Run the container**
 
 ```sh
-docker run -d -p 3000:3000 --name cypress-api cypress-runner
+docker run -it -p 3000:3000 cypress-api-runner
 ```
 
 3. **Check logs**
@@ -149,7 +151,7 @@ Cypress.env("GOOGLE_REFRESH_TOKEN")
 ## 🧰 Common Issues
 
 - **Connection reset / cannot reach server**  
-Ensure server listens on `0.0.0.0` inside Docker:
+   Ensure server listens on `0.0.0.0` inside Docker:
 
 ```ts
 app.listen(PORT, "0.0.0.0");
