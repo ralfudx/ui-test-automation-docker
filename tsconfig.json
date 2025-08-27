@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM"],
+    "module": "commonjs",
+    "outDir": "dist",
+    "rootDir": ".",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,                   // Enables all strict type-checking options
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    // "noImplicitAny": true,            // Disallow variables with implicit 'any' type
+    // "strictNullChecks": true,         // Null and undefined must be explicitly handled
+    // "strictBindCallApply": true,      // Enforces correct function binding/calling
+    // "strictFunctionTypes": true,      // Prevents unsafe function type assignments
+    // "strictPropertyInitialization": true, // Ensure class properties are initialized
+    // "noImplicitThis": true,           // 'this' must have an explicit type
+    // "alwaysStrict": true,             // Parse files in strict mode
+    // "noUnusedLocals": true,           // Error on unused variables
+    // "noUnusedParameters": true,       // Error on unused function parameters
+    // "noImplicitReturns": true,        // Functions must return a value in all paths
+    // "noFallthroughCasesInSwitch": true, // Prevent accidental fallthrough in switch
+    "types": [
+      "cypress",
+      "cypress-plugin-api",
+      "node",
+      "@simonsmith/cypress-image-snapshot/types"
+    ]
+  },
+  "include": ["**/*.ts", "cypress.config.js", "cypress/support", "server.ts"],
+  "exclude": ["node_modules"]
+}
