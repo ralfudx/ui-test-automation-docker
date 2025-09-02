@@ -2,7 +2,6 @@
 /* eslint sonarjs/no-duplicate-string: 0 */
 /* eslint @typescript-eslint/no-shadow: 0 */
 
-import { UserData } from "../test_data/users";
 import { SpikerzData } from "../test_data/spikerz";
 
 const spikerzLogo = 'div[class="sidebar-logo"] > a > img:nth-child(2)';
@@ -17,12 +16,18 @@ const selectAllCheckbox = 'div#selectioni1';
 
 
 const Spikerz = {
-  userLogin(urlSlug: string, user: UserData) {
+  userLogin(urlSlug: string, username?: string, password?: string) {
+    const userUsername = username || Cypress.env("USER_USERNAME");
+    const userPassword = password || Cypress.env("USER_PASSWORD");
     cy.visit(urlSlug, {
       auth: {
-        username: user.username,
-        password: user.password,
+        username: userUsername,
+        password: userPassword,
       },
+    });
+    Cypress.log({
+      name: "login",
+      message: `Logged in as ${userUsername}`,
     });
   },
 
@@ -41,8 +46,8 @@ const Spikerz = {
     cy.get('span').contains(spikerz.logoutText).should('be.visible').click();
   },
 
-  navigateToPage(urlSlug: string, user: UserData) {
-    this.userLogin(urlSlug, user);
+  navigateToPage(urlSlug: string) {
+    this.userLogin(urlSlug);
   },
 
   verifyPageHeaderText(headerText: string) {
@@ -81,17 +86,6 @@ const Spikerz = {
   clickConnectWithYoutube() {
     cy.get(ConnectWithYoutubeImage)
       .should('be.visible').click();
-  },
-
-  gmailUserLogin(user: UserData) {
-    cy.get(gmailEmailInput).type(user.username);
-    cy.get('span').contains('Next').click();
-    cy.get(gmailPasswordInput).type(user.password);
-    cy.get('span').contains('Next').click();
-    //skip 2-step verification
-    cy.get(selectAllCheckbox)
-      .should('be.visible').click();
-    cy.get('span').contains('Continue').click();
   },
 
   confirmYoutubeConnection(spikerz: SpikerzData) {
