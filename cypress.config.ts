@@ -1,7 +1,10 @@
 import { addMatchImageSnapshotPlugin } from '@simonsmith/cypress-image-snapshot/plugin';
 import { defineConfig } from 'cypress';
-import users from './cypress/test_data/users';
 import spikerz from './cypress/test_data/spikerz';
+import dotenv from "dotenv";
+
+// Load .env values into process.env
+dotenv.config();
 
 interface GoogleTokenResponse {
   access_token: string;
@@ -23,9 +26,9 @@ export default defineConfig({
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: new URLSearchParams({
-              client_id: config.env.GOOGLE_CLIENT_ID!,
-              client_secret: config.env.GOOGLE_CLIENT_SECRET!,
-              refresh_token: config.env.GOOGLE_REFRESH_TOKEN!,
+              client_id: process.env.GOOGLE_CLIENT_ID!,
+              client_secret: process.env.GOOGLE_CLIENT_SECRET!,
+              refresh_token: process.env.GOOGLE_REFRESH_TOKEN!,
               grant_type: 'refresh_token',
             }),
           });
@@ -58,9 +61,18 @@ export default defineConfig({
         config.env.TEST_ENV === 'local'
           ? 'dev'
           : (config.env.TEST_ENV as DataENV); // use dev data for testing locally
-      config.env.users = users[dataENV];
       config.env.spikerz = spikerz[dataENV];
       return config;
+    },
+
+    env: {
+      USER_USERNAME: process.env.USER_USERNAME,
+      USER_PASSWORD: process.env.USER_PASSWORD,
+    },
+
+    retries: {
+      runMode: 2,     // Retries in CI (after failure)
+      openMode: 1,    // Retries locally
     },
 
     chromeWebSecurity: false,

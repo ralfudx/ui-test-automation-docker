@@ -1,0 +1,8 @@
+.env
+.DS_Store
+cypress/videos/
+cypress/screenshots/
+cypress/downloads/
+node_modules/
+dist/
+build/

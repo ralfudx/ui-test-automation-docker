@@ -7,9 +7,7 @@ describe(
   function () {
     beforeEach(function () {
       cy.viewport('macbook-15');
-      Spikerz.userLogin('/',
-        Cypress.env('users').userWithAccess
-      );
+      Spikerz.userLogin('/');
     });
 
     it(
@@ -23,8 +21,7 @@ describe(
       'verify social connect with youtube',
       function () {
         Spikerz.navigateToPage(
-          spikerzData.socialConnectUrlSlug,
-          Cypress.env('users').userWithAccess
+          spikerzData.socialConnectUrlSlug
         );
         cy.loginByGoogleApi();
         Spikerz.verifySocialConnectPage(spikerzData);
