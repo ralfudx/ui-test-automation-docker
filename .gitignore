@@ -6,3 +6,4 @@ cypress/downloads/
 node_modules/
 dist/
 build/
+results/

@@ -19,5 +19,4 @@ RUN npm run build
 EXPOSE 3000
 
 # Start Express API
-# CMD ["npm", "start"]
-CMD ["node", "dist/server.js"]
+CMD ["npm", "start"]
