@@ -4,15 +4,12 @@
 
 import { SpikerzData } from "../test_data/spikerz";
 
-const spikerzLogo = 'div[class="sidebar-logo"] > a > img:nth-child(2)';
-const userProfileButton = 'button[nzoverlayclassname="main-menu-dropdown"] div';
-const headerTitleContainer = 'div[class*="giant-section-title"] > h4';
-const menuItems = 'span[class="ant-menu-title-content"] > a > span';
+const spikerzLogo = '.sidebar-logo > a > img:nth-child(2)';
+const userProfileButton = '.profile-wrapper div';
+const headerTitleContainer = '.giant-section-title > h4';
+const menuItems = '.ant-menu-title-content > a > span';
 const ConnectWithYoutubeImage = 'span[class="content-wrapper no-filter"] > img';
-const socialConnectCards = 'div[class="ant-card-body"] > div > div:nth-child(2)';
-const gmailEmailInput = 'input#identifierId';
-const gmailPasswordInput = 'input[name="Passwd"]';
-const selectAllCheckbox = 'div#selectioni1';
+const socialConnectCards = '.ant-card-body > div > div:nth-child(2)';
 
 
 const Spikerz = {
@@ -32,18 +29,16 @@ const Spikerz = {
   },
 
   verifySignedInUser(spikerz: SpikerzData) {
+    cy.assertVisible(spikerzLogo);
     cy.get(spikerzLogo)
-      .should('be.visible')
-      .and('have.attr', 'alt', spikerz.logoText);
-    cy.get(userProfileButton)
-      .should('be.visible');
-    cy.get('h5').contains(spikerz.overviewHeaderText)
-      .should('be.visible')
+      .should('have.attr', 'alt', spikerz.logoText);
+    cy.assertVisible(userProfileButton);
+    cy.assertContainsTextVisible('h5', spikerz.overviewHeaderText);
   },
 
   userLogOut(spikerz: SpikerzData) {
-    cy.get(userProfileButton).should('be.visible').click();
-    cy.get('span').contains(spikerz.logoutText).should('be.visible').click();
+    cy.assertVisible(userProfileButton).click();
+    cy.assertContainsTextVisible('span', spikerz.logoutText).click();
   },
 
   navigateToPage(urlSlug: string) {
@@ -51,56 +46,44 @@ const Spikerz = {
   },
 
   verifyPageHeaderText(headerText: string) {
-    cy.get(headerTitleContainer)
-      .should('be.visible')
+    cy.assertVisible(headerTitleContainer)
       .and('contain', headerText);
   },
 
   verifySocialConnectPage(spikerz: SpikerzData) {
-    cy.get('h4').contains(spikerz.socialConnectHeaderText)
-      .should('be.visible');
-    cy.get('div').contains(spikerz.socialConnectSubHeaderText)
-      .should('be.visible');
-    cy.get(socialConnectCards)
-      .should('be.visible')
-      .and('have.length', 6);
+    cy.assertContainsTextVisible('h4', spikerz.socialConnectHeaderText);
+    cy.assertContainsTextVisible('div', spikerz.socialConnectSubHeaderText);
+    cy.assertVisible(socialConnectCards).and('have.length', 6);
   },
 
   verifySocialConnectCardsDisplayed(spikerz: SpikerzData) {
     Cypress._.forEach(spikerz.socialConnectCardNames, (cardName) => {
-      cy.get(socialConnectCards).contains(cardName)
-        .should('be.visible');
+      cy.assertContainsTextVisible(socialConnectCards, cardName);
     });
   },
 
   clickSocialConnectCard(cardName: string) {
-    cy.get(socialConnectCards).contains(cardName)
-        .should('be.visible').click();
+    cy.assertContainsTextVisible(socialConnectCards, cardName).click();
   },
 
   verifyConnectWithSocialPage(cardName: string) {
-    cy.get('h4').contains(`Connect with ${cardName}`)
-      .should('be.visible');
+    cy.assertContainsTextVisible('h4', `Connect with ${cardName}`);
   },
 
   clickConnectWithYoutube() {
-    cy.get(ConnectWithYoutubeImage)
-      .should('be.visible').click();
+    cy.assertVisible(ConnectWithYoutubeImage).click();
   },
 
   confirmYoutubeConnection(spikerz: SpikerzData) {
     this.verifyConnectWithSocialPage(spikerz.socialConnectCardNames[3]);
-    cy.get('h5').contains(spikerz.confirmDetailsText)
-      .should('be.visible');
-    cy.get('div').contains(spikerz.youtubeHandle)
-      .should('be.visible')
+    cy.assertContainsTextVisible('h5', spikerz.confirmDetailsText);
+    cy.assertContainsTextVisible('div', spikerz.youtubeHandle);
   },
 
   verifyMenuItemPage(spikerz: SpikerzData) {
     Cypress._.forEach(spikerz.menuTitles, (menuTitle) => {
       if(menuTitle != spikerz.menuTitles[0]) {
-        cy.get(menuItems).contains(menuTitle)
-          .should('be.visible').click({force: true});
+        cy.assertContainsTextVisible(menuItems, menuTitle).click({force: true});
         this.verifyPageHeaderText(menuTitle);
       };
     });

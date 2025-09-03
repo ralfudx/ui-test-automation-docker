@@ -47,6 +47,24 @@ Cypress.Commands.add('loginByGoogleApi', () => {
       });
     });
 });
+
+Cypress.Commands.add('assertVisible', (selector: string, message?: string) => {
+  cy.get(selector).should(($el) => {
+    expect(
+      $el.is(':visible'),
+      message || `Expected ${selector} to be visible`
+    ).to.be.true;
+  });
+});
+
+Cypress.Commands.add('assertContainsTextVisible', (tag: string, selector: string, message?: string) => {
+  cy.get(tag).contains(selector).should(($el) => {
+    expect(
+      $el.is(':visible'),
+      message || `Expected ${tag} : ${selector} to be visible`
+    ).to.be.true;
+  });
+});
   
 //
 // -- This is a child command --

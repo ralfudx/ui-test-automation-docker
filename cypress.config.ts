@@ -15,6 +15,18 @@ interface GoogleTokenResponse {
   token_type: string;
 }
 
+function validateGoogleEnvVars() {
+  const requiredVars = ['GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_SECRET', 'GOOGLE_REFRESH_TOKEN'];
+  const missing = requiredVars.filter((key) => !process.env[key]);
+
+  if (missing.length > 0) {
+    throw new Error(
+      `❌ Missing required Google OAuth environment variables: ${missing.join(", ")}\n` +
+      `Please add them to your .env file or CI/CD secrets.`
+    );
+  }
+}
+
 export default defineConfig({
   e2e: {
     async setupNodeEvents(on, config) {
@@ -22,6 +34,8 @@ export default defineConfig({
 
       on('task', {
         async getGoogleToken(): Promise<GoogleTokenResponse> {
+          // Validate Google env variables before making the request
+          validateGoogleEnvVars();
           const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

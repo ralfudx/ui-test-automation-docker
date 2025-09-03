@@ -58,8 +58,7 @@ npx cypress run
 3. **Start the API server locally**
 
 ```sh
-npm run build   # compile TypeScript
-node dist/server.js
+npm start
 ```
 
 Server will be available at: [http://localhost:3000](http://localhost:3000)

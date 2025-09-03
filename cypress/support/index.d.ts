@@ -7,6 +7,8 @@ declare namespace Cypress {
        * Usage: cy.loginByGoogleApi()
        */
       loginByGoogleApi(): Chainable<void>;
+      assertVisible(selector: string, message?: string): Chainable<JQuery<HTMLElement>>;
+      assertContainsTextVisible(tag: string, selector: string, message?: string): Chainable<JQuery<HTMLElement>>;
     }
   }
   
